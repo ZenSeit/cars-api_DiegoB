@@ -11,10 +11,17 @@ import java.util.UUID;
 @AllArgsConstructor
 public class CarDTO {
 
-    private String id = UUID.randomUUID().toString().substring(0, 10);
+    private String id;
     private String brand;
     private String color;
     private int model;
     private String licensePlate;
     private boolean isRented;
+
+    public CarDTO(String brand, String color, int model, String licensePlate) {
+        this.brand = brand;
+        this.color = color;
+        this.model = model;
+        this.licensePlate = licensePlate;
+    }
 }
