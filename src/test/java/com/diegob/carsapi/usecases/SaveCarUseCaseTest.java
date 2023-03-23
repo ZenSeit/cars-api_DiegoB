@@ -47,7 +47,8 @@ class SaveCarUseCaseTest {
         var response = saveCarUseCase.save(mapper.map(car, CarDTO.class));
 
         StepVerifier.create(response)
-                .expectNextCount(1)
+                .expectNextMatches(c->c.getBrand().equals("Mazda"))
+                //.expectNextCount(1)
                 .verifyComplete();
 
         Mockito.verify(repository).save(ArgumentMatchers.any(Car.class));
