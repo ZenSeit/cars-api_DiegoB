@@ -20,9 +20,9 @@ public class RentCarUseCase implements RentCar {
     private final CarPublisher carPublisher;
 
     @Override
-    public Mono<CarDTO> rent(String idCar, String idDriver) {
+    public Mono<CarDTO> rent(String carId, String driverId) {
         return carRepository
-                .findById(idCar)
+                .findById(carId)
                 .switchIfEmpty(Mono.error(new Throwable("Car not exist!")))
                 .flatMap(car -> {
                     if(!car.isRented()){
@@ -35,7 +35,7 @@ public class RentCarUseCase implements RentCar {
                 .doOnSuccess(carDTO -> {
 
                     try {
-                        carPublisher.publish(carDTO,idDriver);
+                        carPublisher.publish(carDTO,driverId);
                     } catch (JsonProcessingException e) {
                         throw new RuntimeException(e);
                     }
