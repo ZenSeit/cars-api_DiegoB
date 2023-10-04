@@ -5,5 +5,5 @@ import reactor.core.publisher.Mono;
 
 @FunctionalInterface
 public interface RentCar {
-    Mono<CarDTO> rent(String idCar, String idDriver);
+    Mono<CarDTO> rent(String idCar, String idDriver, String type);
 }

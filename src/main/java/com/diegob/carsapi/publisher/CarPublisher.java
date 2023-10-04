@@ -15,9 +15,19 @@ public class CarPublisher {
     private final RabbitTemplate rabbitTemplate;
     private final ObjectMapper objectMapper;
 
-    public void publish(CarDTO carDTO, String idDriver) throws JsonProcessingException {
+    public void publish(CarDTO carDTO, String idDriver,String type) throws JsonProcessingException {
         String message = objectMapper.writeValueAsString(new CarEvent(idDriver,carDTO,"rent"));
-        rabbitTemplate.convertAndSend(RabbitConfig.EXCHANGE, RabbitConfig.ROUTING_KEY, message);
+        switch (type.toLowerCase()){
+            case "direct":
+                rabbitTemplate.convertAndSend(RabbitConfig.EXCHANGE_DIRECT, RabbitConfig.ROUTING_KEY_DIRECT, message);
+                break;
+            case "topic":
+                rabbitTemplate.convertAndSend(RabbitConfig.EXCHANGE_TOPIC, RabbitConfig.ROUTING_KEY_TOPIC, message);
+                break;
+            case "fanout":
+                rabbitTemplate.convertAndSend(RabbitConfig.EXCHANGE_FANOUT,"", message);
+                break;
+        }
     }
 
 }

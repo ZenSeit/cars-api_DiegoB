@@ -55,7 +55,7 @@ class RentCarUseCaseTest {
         Mockito.when(repository.save(ArgumentMatchers.any(Car.class))).thenReturn(Mono.just(mapper.map(car, Car.class)));
         //Mockito.when(rabbitTemplate.convertAndSend(ArgumentMatchers.anyString(),ArgumentMatchers.anyString(),ArgumentMatchers.anyString()));
 
-        var response = rentCarUseCase.rent(car.getId(), "");
+        var response = rentCarUseCase.rent(car.getId(), "","");
 
         StepVerifier.create(response)
                 //.expectNext(mapper.map(car,CarDTO.class))
@@ -72,7 +72,7 @@ class RentCarUseCaseTest {
 
         Mockito.when(repository.findById(ArgumentMatchers.anyString())).thenReturn(Mono.empty());
 
-        var response = rentCarUseCase.rent("","");
+        var response = rentCarUseCase.rent("","","");
 
         StepVerifier.create(response)
                 .expectError(Throwable.class);

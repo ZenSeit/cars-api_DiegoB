@@ -81,14 +81,14 @@ public class CarRouter {
 
     @Bean
     public RouterFunction<ServerResponse> rentACar(RentCarUseCase rentCarUseCase){
-        return route(POST("/cars/{id}/rent/{idDriver}"),
+        return route(POST("/cars/{id}/rent/{idDriver}/{type}"),
                 request ->
                         driverAPI.get()
                                 .uri("/drivers/"+request.pathVariable("idDriver"))
                                 .retrieve()
                                 .bodyToMono(DriverDTO.class)
                                 .flatMap(driverDTO -> rentCarUseCase
-                                        .rent(request.pathVariable("id"), driverDTO.getId())
+                                        .rent(request.pathVariable("id"), driverDTO.getId(),request.pathVariable("type"))
                                         .flatMap(bookDTO -> ServerResponse.ok()
                                                 .contentType(MediaType.APPLICATION_JSON)
                                                 .bodyValue(bookDTO))
